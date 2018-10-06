@@ -1,9 +1,17 @@
-FROM node:9-onbuild as build
+FROM i3c/base/alpine as build
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+COPY package.json /usr/src/app/
+RUN npm install && npm cache clean --force
+COPY . /usr/src/app
 
 CMD ["npm", "start"]
 
 FROM alpine:3.6
-COPY --from=build /usr/src/app /usr/src/app
 
 RUN apk update \
   && apk add nodejs nodejs-npm \
@@ -28,6 +36,8 @@ ENV HTTP_ENABLED=true
 ENV HTTP_PORT=8022
 
 EXPOSE 22 8022
+
+COPY --from=build /usr/src/app /usr/src/app
 
 WORKDIR /usr/src/app
 CMD ["npm", "start"]

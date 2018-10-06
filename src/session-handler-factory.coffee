@@ -32,16 +32,18 @@ module.exports = (filters, shell, shell_user) ->
     handler: (accept, reject) ->
       session = accept()
       termInfo = null
-
       _container = null
+      flt = filters
+      flt = {"name":["^/#{process.env.CNAME}$"]} if (process.env.CNAME)
+      log.info {envFilters:process.env.CNAME}, 'Exec0'	  
 
-      docker.listContainers {filters:filters}, (err, containers) ->
+      docker.listContainers {filters:flt}, (err, containers) ->
         containerInfo = containers?[0]
         _containerName = containerInfo?.Names?[0]
         _container = docker.getContainer containerInfo?.Id
 
         session.once 'exec', (accept, reject, info) ->
-          log.info {container: _containerName, command: info.command}, 'Exec'
+          log.info {envFilters:process.env.CNAME, container: _containerName, command: info.command}, 'Exec'
           channel = accept()
           execOpts =
             Cmd: [shell, '-c', info.command]

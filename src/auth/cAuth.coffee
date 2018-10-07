@@ -2,8 +2,8 @@ bunyan  = require 'bunyan'
 log     = bunyan.createLogger name: 'simpleAuth'
 env     = require '../env'
 
-username = env.assert 'AUTH_USER'
-password = env.assert 'AUTH_PASSWORD'
+username = process.env.AUTH_USER
+password = process.env.AUTH_PASSWORD
 
 module.exports = (ctx) ->
   if ctx.method is 'password'

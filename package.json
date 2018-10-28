@@ -19,6 +19,8 @@
     "forever": "^0.15.1",
     "ssh2": "~0.4.11",
     "ssh2-connect": "0.0.7",
+    "ssh2-streams": "^0.0.21",
+    "tmp": "^0.0.30",    
     "buffer-equal-constant-time": "1.0.1",
     "uuid": "~2.0.1"
   }

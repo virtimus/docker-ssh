@@ -6,7 +6,7 @@ log       = bunyan.createLogger name: 'sshServer'
 webserver       = require './src/webserver'
 handlerFactory  = require './src/session-handler-factory'
 
-sshPort         = process.env.PORT or 22
+sshPort         = process.env.PORT or 2222
 httpPort        = process.env.HTTP_PORT or 80
 httpEnabled     = process.env.HTTP_ENABLED or true
 ip              = process.env.IP or '0.0.0.0'
@@ -32,6 +32,8 @@ exitOnConfigError "Unknown AUTH_MECHANISM: #{authMechanism}"  unless authenticat
 
 options =
   privateKey: fs.readFileSync keypath
+  debug: (str) ->
+  	log.info 'ssh2Debug:', str
 
 # support CONTAINER parameter for backwards compatibility
 # Apparently the name filter also matches on partial names

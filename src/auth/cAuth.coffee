@@ -7,6 +7,7 @@ password = process.env.AUTH_PASSWORD
 
 module.exports = (ctx) ->
   if ctx.method is 'password'
+    log.info 'checking pass:', password, 'ctxPass', ctx.password
     if ctx.password is password
       log.info {container: ctx.username}, 'Authentication succeeded'
       process.env.CNAME = ctx.username

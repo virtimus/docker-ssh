@@ -16,7 +16,7 @@ FROM alpine:3.6
 RUN apk update \
   && apk add nodejs nodejs-npm \
   && rm -rf /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp
-
+RUN apk update && apk upgrade && apk add git bash
 # Connect to container with name/id
 ENV CONTAINER=
 
